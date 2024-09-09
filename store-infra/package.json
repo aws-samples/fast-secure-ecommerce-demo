@@ -1,0 +1,28 @@
+{
+  "name": "store-infra",
+  "version": "0.1.0",
+  "bin": {
+    "store-infra": "bin/store-infra.js"
+  },
+  "scripts": {
+    "install": "npm install -f --omit=optional --prefix functions/image-processing-lambda sharp @img/sharp-linux-x64 @img/sharp-libvips-linux-x64",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "20.14.2",
+    "aws-cdk": "2.155.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.5.4"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.155.0",
+    "constructs": "^10.3.0",
+    "source-map-support": "^0.5.21"
+  }
+}
