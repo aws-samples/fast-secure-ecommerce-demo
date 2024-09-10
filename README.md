@@ -1,7 +1,5 @@
-# fast-secure-ecommerce-demo
-The Online Boutique is fictitious online store that is accelerated by Amazon CloudFront and protected with AWS WAF, both part of AWS Edge Services. It's an educational project, that help developers in understanding the capabilities of AWS Edge Services. It can be used as a demo tool, and as a testing sandbox. The project is currently in experimental stage.
-
-In this page, you can find details on the architecture of the application, how to deploy it, and the different recommended test scenarios. Note that these test scenarios cover a small percentage of the capabilities offered by AWS Edge Services.
+# Fast & secure e-commerce demo
+This project is a fictitious online retail store that is accelerated by Amazon CloudFront and protected with AWS WAF, both part of AWS Edge Services. It's an educational project, that helps developers in understanding the capabilities of AWS Edge Services. It can be used as a demo tool, and as a testing sandbox.
 
 > [!NOTE]
 > This demo serves as a reference or starting point for development purposes. Developers are responsible for thoroughly evaluating and modifying their code to ensure compliance with established security best practices and guidelines before deploying it in production.
@@ -9,6 +7,10 @@ In this page, you can find details on the architecture of the application, how t
 > This repository provides a demonstration of specific WAF functionalities using illustrative test cases. It is crucial to understand that **this is not a production-ready solution** and should not be  utilized in production environments without proper testing and validation. For any real-world application, it is necessary to engage with your security team to design and implement robust WAF configurations that align with your organization's specific security requirements. Please be advised that the CloudFront distribution used in this demo is **intentionally configured to be publicly accessible for demonstration purposes**. Exercise caution when adapting or extending this code for production use.
 
 <!-- ![](screenshot.jpeg) -->
+
+In this page, you can find details on the architecture of the application, how to deploy it, and the different suggested test scenarios. Note that these test scenarios cover a small percentage of the capabilities offered by AWS Edge Services.
+
+
 
 # How to deploy
 
@@ -24,10 +26,6 @@ cdk deploy
 As prerequisite, you need to have CDK installed ```npm install -g aws-cdk``` and bootstraped ```cdk bootstrap```. 
 
 Note the generated CloudFront domain name, and the load balancer domain name, as you will use them in the test scenarios.
-
-Current gotchas: 
-* Updating the stack will not update the web app installed on EC2. You will need to terminate the EC2 instances in the ASG, allowing the ASG to launch new ones.
-* Since a CloudFront WAF WebACL must be deployed in us-east-1, regardless of the region of the CDK stack, we have to create a custom resource to deploy it. If you update the WAF configuration in CDK, it wont be reflected in a new CDK deploy, for the same reason.
 
 # Architecture
 
@@ -68,9 +66,6 @@ fields @timestamp, @message
 | Stolen credential detection | **Account Takeover** | Use the following test _stolen credentials_ and verify that api call is blocked with 403 response code <br/> ```WAF_TEST_CREDENTIAL@wafexample.com``` <br/> ```WAF_TEST_CREDENTIAL_PASSWORD``` |
 | Password traversal detection | **Account Takeover** | Using the same username, e.g. joe, and login with different passwords tens of times until the api call is blocked with 403 response code |
 | Volumetric account creation within a session | **Fake Account Creation** | Create mulitple accounts, and verify that a the api call is blocked with 403 response code after a few account creation attempts |
-| Report false positives | **False positives** | Under construction |
-| CAPTCHA in registration worklflow| **Fake Account Creation** | Under construction |
-| Block unexpected API paths| **Broken Access Control** | Under construction |
 
 
 # Content delivery test scenarios
@@ -89,51 +84,19 @@ Load the website in your browser, and open the Chrome developer tools to underst
 | **A/B testing** | Load the home page, and verify that your session was assigned a ```user-segment``` cookie. This cookie is used to apply A/B testing experiments differently across user segments, in a sticky way. Create an experiment that includes your assigned user segment (e.g. 4), and your country code (e.g. AE for UAE) in the deployed KeyValueStore in the CloudFront Console, using the following config. Wait for a few seconds, and reload the home page. Validate that you are receicing the _v2_ version that includes a _Buy_ button. <br/> Key: ```/``` <br/> Value: ```{ "segments": "1,2,3", "countries": "AE,FR", "rules": { "rewrite_path": "/index-v2" }}```| 
 | **HTTP redirection** | Load the following non existing campaign page: ```/MassiveSales2022```. Verify that 404 Not found is returned. Add the following http redirection rule to the deployed KeyValueStore in the CloudFront console, then validate that you are redirected to home page when loading this old campaign page <br/> Key: ```/MassiveSales2022``` <br/> Value: ```{ "rules": { "redirect": "/sales" }}```| 
 | **Waiting room** | You will activate a waiting room for the cart page. Only logged premium users can actually access the cart page, the rest are showed the waiting room. To do this, add the following entry in the deployed KeyValueStore in the CloudFront console. Log with default user (user: Joud, pwd: demo) and verify that you have access to the cart page. Register a new non-premium user in a different browser, and verify that they do not have access to the cart. <br/> Key: ```/cart``` <br/> Value: ```{ "rules": { "waitroom": { "location": "/waitroom" } } }```|
-| **Graceful failover** | Under construction |
 | **Speculation API** | The home page uses the specualtion rules API of the browser, to prerender product pages on whic the mouse hovers for over 200 ms. Go to the speculation rules tab in the Chrome developer tools, and check how a product page is pre-rendered when the mouse hovers over  |
-
-
-# Future work
-
-## Scenarios  
-* Add Server timing headers to RUM
-* Add an observability option for CloudFront: CloudWatch or real time logs.
-* API using Lambda + OAC
-
-## App code
-* Add more registration data (e.g. First and Last name)
-* Preview display in social networks
-* GenAI search bar
-
-## Infra code
-* Holistic review + comments
-* CSP header
-* Enforce origin cloaking at L7
-* Move static content to own bucket with appropriate caching behavior
-* Automatically detect the repo git name
-* Config file change to work with CDK output
-* Allow the option for custom domain in CDK input parameters
-* Remove KVS id rewrite following https://www.linkedin.com/feed/update/urn:li:activity:7234016780552175616/
 
 # Request flow
 
 ![](docs-images/request-flow.png)
 
-# Troubleshooting
-
-for issues with the backend nextjs server (e.g. not running), connect to the EC2 instance using the AWS console, and use the appropriate command of the following :
-```
-pm2 list
-pm2 restart nextjs-app
-pm2 start npm --name nextjs-app -- run start -- -p 3000
-cat /var/log/cloud-init-output.log
-```
+# Advanced
 
 If you want to test the application locally, change the cdk deploy command to 
 ```
 cdk deploy --outputs-file ../store-app/aws-backend-config.json
 ```
-In the generated file, remove the ```StoreInfraStack``` level from the JSON object. Then run the following commands:
+In the generated file, update the format to match the expected one by the application (to be detailed soon), then run the following commands:
 ```
 cd store-app
 npm install
@@ -141,3 +104,7 @@ npm run dev
 ```
 
 The application will be available on localhost's port 3000.
+
+Current gotchas: 
+* Updating the stack will not update the web app installed on EC2. You will need to terminate the EC2 instances in the ASG, allowing the ASG to launch new ones.
+* Since a CloudFront WAF WebACL must be deployed in us-east-1, regardless of the region of the CDK stack, we have to create a custom resource to deploy it. If you update the WAF configuration in CDK, it wont be reflected in a new CDK deploy, for the same reason.
