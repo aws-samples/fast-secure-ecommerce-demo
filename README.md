@@ -6,7 +6,7 @@ This project is a fictitious online retail store that is accelerated by Amazon C
 > 
 > This repository provides a demonstration of specific WAF functionalities using illustrative test cases. It is crucial to understand that **this is not a production-ready solution** and should not be  utilized in production environments without proper testing and validation. For any real-world application, it is necessary to engage with your security team to design and implement robust WAF configurations that align with your organization's specific security requirements. Please be advised that the CloudFront distribution used in this demo is **intentionally configured to be publicly accessible for demonstration purposes**. Exercise caution when adapting or extending this code for production use.
 
-<!-- ![](screenshot.jpeg) -->
+![](docs-images/screenshot.png) 
 
 In this page, you can find details on the architecture of the application, how to deploy it, and the different suggested test scenarios. Note that these test scenarios cover a small percentage of the capabilities offered by AWS Edge Services.
 
