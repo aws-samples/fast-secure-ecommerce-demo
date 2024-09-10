@@ -24,3 +24,4 @@
 * Consider moving backed in Lambda with Lamdba Adapter layer
 * Config file change to work with CDK output
 * Allow the option for custom domain in CDK input parameters
+* Update WAFWebACL on every CDK change
