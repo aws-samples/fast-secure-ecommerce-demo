@@ -1,6 +1,6 @@
 
 import Image from 'next/image'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Layout from './../components/Layout';
@@ -22,11 +22,6 @@ export default function Product({ product, comments, username }) {
     productid: product.id,
     username: username,
   });
-
-  useEffect(() => {
-
-  }, [router, cartAction]);
-
 
   function addItemToCart(product) {
     addCartItem(product);

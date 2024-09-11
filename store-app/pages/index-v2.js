@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import Layout from './components/Layout';
 import { getProducts } from '../lib/ddb';
@@ -10,11 +10,6 @@ import { addCartItem } from '../lib/client-side-helper';
 
 export default function Home({ products, username }) {
   const [cartAction, setCartAction] = useState(0);
-
-  useEffect(() => {
-
-  }, [cartAction]);
-
 
   function addItemToCart(product) {
     addCartItem(product);
