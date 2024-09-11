@@ -19,6 +19,24 @@ const nextConfig = {
         ],
       },
       {
+        source: '/logo.png',
+        headers: [
+          {
+            key: 'cache-control',
+            value: 'max-age=172800,stale-while-revalidate=60', // two days
+          },
+        ],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [
+          {
+            key: 'cache-control',
+            value: 'max-age=172800,stale-while-revalidate=60', // two days
+          },
+        ],
+      },
+      {
         source: '/login',
         headers: [
           {
