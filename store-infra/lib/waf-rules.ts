@@ -230,19 +230,6 @@ export const wafRules = [
                   ByteMatchStatement: {
                     FieldToMatch: { UriPath: {} },
                     PositionalConstraint: "STARTS_WITH",
-                    SearchString: "/api/profile",
-                    TextTransformations: [
-                      {
-                        Priority: 0,
-                        Type: "LOWERCASE"
-                      }
-                    ]
-                  }
-                },
-                {
-                  ByteMatchStatement: {
-                    FieldToMatch: { UriPath: {} },
-                    PositionalConstraint: "STARTS_WITH",
                     SearchString: "/api/comment",
                     TextTransformations: [
                       {
