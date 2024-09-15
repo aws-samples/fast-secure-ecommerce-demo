@@ -1,5 +1,4 @@
 import * as path from "path";
-import * as fs from "fs";
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -474,12 +473,8 @@ export class StoreInfraStack extends cdk.Stack {
       })),
     });
 
-    // Replace KVS id in the CloudFront Function code, then minify the code
-    let htmlRulesRequestFunctionCode = fs.readFileSync(path.join(__dirname, "../functions/cloudfront-function-html-rules/request-index.js"), 'utf-8');
-    htmlRulesRequestFunctionCode = htmlRulesRequestFunctionCode.replace(/__KVS_ID__/g, kvs.keyValueStoreId);
-
     const htmlRulesRequestFunction = new cloudfront.Function(this, 'htmlRulesRequestFunction', {
-      code: cloudfront.FunctionCode.fromInline(htmlRulesRequestFunctionCode),
+      code: cloudfront.FunctionCode.fromFile({ filePath: 'functions/cloudfront-function-html-rules/request-index.js' }),
       functionName: `htmlRulesReqCFF${this.node.addr}`,
       runtime: cloudfront.FunctionRuntime.JS_2_0,
       keyValueStore: kvs,
@@ -559,7 +554,7 @@ export class StoreInfraStack extends cdk.Stack {
         },
         '/images/*': {
           origin: new cforigins.OriginGroup({
-            primaryOrigin: new cforigins.S3Origin(transformedImageBucket, {
+            primaryOrigin: cforigins.S3BucketOrigin.withOriginAccessControl(transformedImageBucket, {
               originShieldEnabled: true,
               originShieldRegion: originShieldRegion,
             }),
