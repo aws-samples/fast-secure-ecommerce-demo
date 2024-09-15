@@ -129,6 +129,7 @@ export const wafRules = [
       ManagedRuleGroupStatement: {
         VendorName: "AWS",
         Name: "AWSManagedRulesBotControlRuleSet",
+        Version: "Version_3.0",
         ManagedRuleGroupConfigs: [
           {
             AWSManagedRulesBotControlRuleSet: { InspectionLevel: "TARGETED" }
@@ -155,7 +156,7 @@ export const wafRules = [
             ActionToUse: {
               Block: {}
             },
-            Name: "TGT_TokenReuseIp"
+            Name: "TGT_TokenReuseIpLow"
           },
           {
             ActionToUse: {
