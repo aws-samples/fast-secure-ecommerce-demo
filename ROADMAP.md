@@ -19,8 +19,6 @@
 * Add CSP header
 * Use latest version of bot control
 * Enforce origin cloaking at L7
-* Use OAC L2 construct for S3 buckets
-* Remove KVS id rewrite
 * Move static content to own bucket with appropriate caching behavior
 * Consider moving backed in Lambda with Lamdba Adapter layer
 * Config file change to work with CDK output
