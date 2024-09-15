@@ -1,6 +1,6 @@
 import cf from 'cloudfront';
 import crypto from 'crypto';
-const kvsHandle = cf.kvs('__KVS_ID__'); // Will be replaced with the actual KVS ID
+const kvsHandle = cf.kvs();
 
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
