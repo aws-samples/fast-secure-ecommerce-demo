@@ -24,3 +24,4 @@
 * Config file change to work with CDK output
 * Allow the option for custom domain in CDK input parameters
 * Update WAFWebACL on every CDK change
+* More holistic Fraud prevention on the registration (e.g. custom solutions)
