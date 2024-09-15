@@ -158,12 +158,6 @@ export const wafRules = [
             },
             Name: "TGT_TokenReuseIpLow"
           },
-          {
-            ActionToUse: {
-              Captcha: {}
-            },
-            Name: "TGT_ML_CoordinatedActivityHigh"
-          },
         ],
       },
     },
