@@ -17,6 +17,7 @@
 
 ## Infra code
 * Add CSP header
+* Use latest version of bot control
 * Enforce origin cloaking at L7
 * Use OAC L2 construct for S3 buckets
 * Remove KVS id rewrite
