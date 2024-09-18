@@ -16,7 +16,7 @@
     "aws-rum-web": "^1.19.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
-    "next": "14.2.8",
+    "next": "14.2.10",
     "react": "^18",
     "react-dom": "^18"
   },
